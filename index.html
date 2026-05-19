@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPL ValueAI — Predictive Market Valuation Engine</title>
+    <!-- Core UI Dependencies CDN Integrations -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="assets/js/components.js"></script>
+</head>
+<body class="flex flex-col min-h-full pt-16">
+
+    <!-- Global Application Navigation Mount Element -->
+    <div data-component="header" data-active-page="home"></div>
+
+    <!-- Main Content Container Interface Grid -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+        <!-- Hero Operational Overview Section -->
+        <div class="relative bg-slate-900/40 border border-slate-800/60 rounded-2xl p-8 md:p-12 overflow-hidden mb-12">
+            <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-transparent pointer-events-none"></div>
+            <div class="relative max-w-3xl">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-medium text-emerald-400 bg-emerald-500/10 rounded-full mb-5 border border-emerald-500/20">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Live IPL Mega-Auction Pipeline Calibrator
+                </span>
+                <h1 class="text-4xl md:text-5xl font-black tracking-tight text-white mb-4">
+                    Quantifying Cricket Valuation Arbitrage with ML.
+                </h1>
+                <p class="text-base text-slate-400 leading-relaxed mb-6">
+                    IPL ValueAI dissects situational ball-by-ball T20 metrics via a Scikit-Learn Gradient Boosting pipeline to isolate player market inefficiencies—highlighting clear overvalued/undervalued contract anomalies.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="players.html" class="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-slate-950 font-semibold text-sm rounded-xl transition-all shadow-lg shadow-emerald-500/10">
+                        Explore Player Roster <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                    <a href="model.html" class="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-medium text-sm rounded-xl transition-all border border-slate-700/50">
+                        View Model Weights
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- High-Tier Model Summary Cards Dashboard Block -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12" id="summary-cards-container">
+            <div class="bg-slate-900/50 border border-slate-800/80 rounded-xl p-6">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-2.5 bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-emerald-400">
+                        <i data-lucide="cpu" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-xs text-slate-500 font-mono">Gradient Boosting Engine</span>
+                </div>
+                <h3 class="text-sm font-medium text-slate-400">Algorithmic Fit ($R^2$)</h3>
+                <p class="text-3xl font-bold text-white mt-1" id="metrics-r2">0.87</p>
+            </div>
+            
+            <div class="bg-slate-900/50 border border-slate-800/80 rounded-xl p-6">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-2.5 bg-amber-500/10 border border-amber-500/20 rounded-lg text-amber-400">
+                        <i data-lucide="trending-down" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-xs text-slate-500 font-mono">Pipeline Valuation Shift</span>
+                </div>
+                <h3 class="text-sm font-medium text-slate-400">Mean Absolute Error (MAE)</h3>
+                <p class="text-3xl font-bold text-white mt-1" id="metrics-mae">₹2.15 Cr</p>
+            </div>
+
+            <div class="bg-slate-900/50 border border-slate-800/80 rounded-xl p-6">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-2.5 bg-blue-500/10 border border-blue-500/20 rounded-lg text-blue-400">
+                        <i data-lucide="database" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-xs text-slate-500 font-mono">Cricsheet DB Logs</span>
+                </div>
+                <h3 class="text-sm font-medium text-slate-400">Profile Index Set Size</h3>
+                <p class="text-3xl font-bold text-white mt-1" id="metrics-samples">42 Players</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Dynamic Layout Mounting Point Element for Footers -->
+    <div data-component="footer"></div>
+
+    <script>
+        // High-level dashboard telemetry fetch routine
+        document.addEventListener("DOMContentLoaded", async () => {
+            try {
+                const res = await fetch('assets/data/model_metrics.json');
+                if (res.ok) {
+                    const data = await res.json();
+                    document.getElementById('metrics-r2').textContent = data.r2_score.toFixed(2);
+                    document.getElementById('metrics-mae').textContent = `₹${(data.mae_lakhs / 100).toFixed(2)} Cr`;
+                    document.getElementById('metrics-samples').textContent = `${data.training_samples} Profiles`;
+                }
+            } catch (err) {
+                console.error("Telemetry failed execution sync pass:", err);
+            }
+        });
+    </script>
+</body>
+</html>
