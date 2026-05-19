@@ -1,0 +1,14 @@
+# Python environment files
+__pycache__/
+*.pyc
+.env
+venv/
+ENV/
+
+# Data source files (Keep the repo clean, don't upload large raw match data files)
+cricsheet_data/*.yaml
+cricsheet_data/*.json
+
+# Local OS files
+.DS_Store
+Thumbs.db
