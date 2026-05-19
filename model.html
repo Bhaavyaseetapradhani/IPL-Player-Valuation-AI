@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPL ValueAI — Algorithmic Architecture</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="assets/js/components.js"></script>
+</head>
+<body class="flex flex-col min-h-full pt-16">
+
+    <div data-component="header" data-active-page="model"></div>
+
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-white tracking-tight">Model Telemetry & Feature Weights</h1>
+            <p class="text-sm text-slate-400 mt-1">Algorithmic transparency interface evaluating feature coefficient distributions derived from the Gradient Boosting pipeline.</p>
+        </div>
+
+        <div class="bg-slate-900/40 border border-slate-800/80 rounded-xl p-6 mb-8">
+            <h3 class="text-base font-bold text-white mb-6 flex items-center gap-2">
+                <i data-lucide="bar-chart-3" class="w-5 h-5 text-emerald-400"></i> Engineered Feature Weights Relative Distribution
+            </h3>
+            <div class="space-y-5" id="feature-bar-mount">
+                <!-- Progress Bars Injected via JavaScript Loop Engine -->
+            </div>
+        </div>
+    </main>
+
+    <div data-component="footer"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            try {
+                const response = await fetch('assets/data/model_metrics.json');
+                const data = await response.json();
+                
+                const maxImportance = Math.max(...data.feature_importances.map(f => f.importance));
+                
+                document.getElementById("feature-bar-mount").innerHTML = data.feature_importances.map(f => {
+                    const widthPct = maxImportance > 0 ? (f.importance / maxImportance) * 100 : 0;
+                    return `
+                        <div>
+                            <div class="flex justify-between text-xs font-mono mb-1.5">
+                                <span class="text-slate-300 uppercase tracking-wider">${f.feature.replace('_', ' ')}</span>
+                                <span class="text-emerald-400 font-bold">${(f.importance * 100).toFixed(1)}% Weight</span>
+                            </div>
+                            <div class="w-full bg-slate-950 h-2.5 rounded-full overflow-hidden border border-slate-800/50">
+                                <div class="bg-emerald-500 h-full rounded-full transition-all duration-500" style="width: ${widthPct}%"></div>
+                            </div>
+                        </div>
+                    `;
+                }).join("");
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+            } catch (error) {
+                console.error("Feature visualization layout tracking failed:", error);
+            }
+        });
+    </script>
+</body>
+</html>
